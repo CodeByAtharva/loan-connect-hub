@@ -15,6 +15,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Simple '/' route
+app.get('/', (req, res) => {
+  res.send('Welcome to Loan Connect Hub API');
+});
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
@@ -46,7 +50,6 @@ const initDb = async () => {
             aadhar_id       VARCHAR(12) NOT NULL UNIQUE,
             pan_no          VARCHAR(10) NOT NULL UNIQUE,
             profession      VARCHAR(50),
-            photo           LONGBLOB,
             email           VARCHAR(100) UNIQUE,
             firebase_uid    VARCHAR(128) UNIQUE,
             created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -71,7 +74,6 @@ const initDb = async () => {
             aadhar_id       VARCHAR(12) NOT NULL UNIQUE,
             pan_no          VARCHAR(10) NOT NULL UNIQUE,
             profession      VARCHAR(50),
-            photo           LONGBLOB,
             email           VARCHAR(100) UNIQUE,
             firebase_uid    VARCHAR(128) UNIQUE,
             created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP

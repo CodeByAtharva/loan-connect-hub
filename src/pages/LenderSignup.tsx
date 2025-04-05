@@ -23,7 +23,7 @@ const LenderSignup: React.FC = () => {
       console.log('Lender signup data:', data);
 
       // Make API call to your backend
-      const response = await fetch('/api/lenders/signup', {
+      const response = await fetch('http://localhost:5000/api/auth/lenders/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,6 +34,7 @@ const LenderSignup: React.FC = () => {
         }),
       });
 
+      console.log('Lender signup response:', response);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Failed to register lender');

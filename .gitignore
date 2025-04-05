@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.env.example
+backend/.env
+backend/config/serviceAccountKey.json
+loan-connect-hub-firebase-adminsdk-fbsvc-158398d9ae.json
+*.json
+*.env

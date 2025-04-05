@@ -84,17 +84,17 @@ const SignupForm: React.FC<SignupFormProps> = ({
 
   // Submit handler
   const handleSubmit = async (data: FormValues) => {
-    if (!photo) {
+    /*if (!photo) {
       alert('Please upload a photo');
       return;
-    }
+    }*/
 
     try {
-      const photoUrl = await uploadUserPhoto(photo);
+      //const photoUrl = await uploadUserPhoto(photo);
 
       const userData = {
         ...data,
-        photoUrl,
+        //photoUrl,
         userType,
         createdAt: new Date().toISOString(),
       };
@@ -114,6 +114,8 @@ const SignupForm: React.FC<SignupFormProps> = ({
     }
   };
 
+  /*
+
   // Helper function to upload user photo
   const uploadUserPhoto = async (file: File): Promise<string> => {
     return new Promise((resolve) => {
@@ -124,7 +126,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
       }, 1000);
     });
   };
-
+*/
   // Helper function to create user profile in database
   const createUserProfile = async (userData: any): Promise<void> => {
     return new Promise((resolve) => {
@@ -218,26 +220,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
               )}
             />
 
-            <div className="space-y-2">
-              <Label htmlFor="photo">Photo</Label>
-              <div className="flex items-center space-x-4">
-                {photoPreview && (
-                  <div className="w-16 h-16 rounded-full overflow-hidden border">
-                    <img
-                      src={photoPreview}
-                      alt="Preview"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                )}
-                <Input
-                  id="photo"
-                  type="file"
-                  accept="image/*"
-                  onChange={handlePhotoChange}
-                />
-              </div>
-            </div>
+
 
             <Button type="submit" className="w-full">
               Continue to Google Authentication
