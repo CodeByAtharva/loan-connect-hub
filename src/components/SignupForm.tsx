@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -28,8 +27,14 @@ import { useNavigate } from 'react-router-dom';
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters' }),
   phone: z.string().min(10, { message: 'Please enter a valid phone number' }),
-  aadhar: z.string().length(12, { message: 'Aadhar number must be 12 digits' }).regex(/^\d+$/, { message: 'Aadhar must contain only numbers' }),
-  pan: z.string().length(10, { message: 'PAN number must be 10 characters' }).regex(/^[A-Z0-9]+$/, { message: 'PAN must be alphanumeric and uppercase' }),
+  aadhar: z
+    .string()
+    .length(12, { message: 'Aadhar number must be 12 digits' })
+    .regex(/^\d+$/, { message: 'Aadhar must contain only numbers' }),
+  pan: z
+    .string()
+    .length(10, { message: 'PAN number must be 10 characters' })
+    .regex(/^[A-Z0-9]+$/, { message: 'PAN must be alphanumeric and uppercase' }),
   profession: z.string().min(2, { message: 'Please enter your profession' }),
 });
 
@@ -38,9 +43,14 @@ type FormValues = z.infer<typeof formSchema>;
 interface SignupFormProps {
   userType: 'borrower' | 'lender';
   onSubmit: (data: FormValues) => void;
+  isSubmitting?: boolean;
 }
 
-const SignupForm: React.FC<SignupFormProps> = ({ userType, onSubmit }) => {
+const SignupForm: React.FC<SignupFormProps> = ({
+  userType,
+  onSubmit,
+  isSubmitting = false,
+}) => {
   const [photo, setPhoto] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -62,7 +72,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ userType, onSubmit }) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setPhoto(file);
-      
+
       // Create a preview of the uploaded photo
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -73,24 +83,64 @@ const SignupForm: React.FC<SignupFormProps> = ({ userType, onSubmit }) => {
   };
 
   // Submit handler
-  const handleSubmit = (data: FormValues) => {
+  const handleSubmit = async (data: FormValues) => {
     if (!photo) {
       alert('Please upload a photo');
       return;
     }
-    
-    // For now, just redirect to dashboard (in a real app, we'd process the form)
-    // This would actually call the onSubmit prop in a real implementation
-    onSubmit(data);
-    
-    // Redirect to the appropriate dashboard
-    navigate(`/${userType}/dashboard`);
+
+    try {
+      const photoUrl = await uploadUserPhoto(photo);
+
+      const userData = {
+        ...data,
+        photoUrl,
+        userType,
+        createdAt: new Date().toISOString(),
+      };
+
+      await createUserProfile(userData);
+      onSubmit(data);
+
+      alert(`Successfully registered as ${userType}!`);
+      navigate(`/${userType}/dashboard`);
+    } catch (error) {
+      console.error('Registration failed:', error);
+      alert(
+        `Registration failed: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`
+      );
+    }
+  };
+
+  // Helper function to upload user photo
+  const uploadUserPhoto = async (file: File): Promise<string> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(
+          `https://storage.example.com/user-photos/${Date.now()}-${file.name}`
+        );
+      }, 1000);
+    });
+  };
+
+  // Helper function to create user profile in database
+  const createUserProfile = async (userData: any): Promise<void> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        console.log('User profile created:', userData);
+        resolve();
+      }, 1000);
+    });
   };
 
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
-        <CardTitle className="text-2xl">Sign Up as {userType === 'borrower' ? 'Borrower' : 'Lender'}</CardTitle>
+        <CardTitle className="text-2xl">
+          Sign Up as {userType === 'borrower' ? 'Borrower' : 'Lender'}
+        </CardTitle>
         <CardDescription>
           Enter your basic information to get started
         </CardDescription>
@@ -111,7 +161,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ userType, onSubmit }) => {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="phone"
@@ -125,7 +175,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ userType, onSubmit }) => {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="aadhar"
@@ -139,7 +189,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ userType, onSubmit }) => {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="pan"
@@ -153,7 +203,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ userType, onSubmit }) => {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="profession"
@@ -167,31 +217,40 @@ const SignupForm: React.FC<SignupFormProps> = ({ userType, onSubmit }) => {
                 </FormItem>
               )}
             />
-            
+
             <div className="space-y-2">
               <Label htmlFor="photo">Photo</Label>
               <div className="flex items-center space-x-4">
                 {photoPreview && (
                   <div className="w-16 h-16 rounded-full overflow-hidden border">
-                    <img src={photoPreview} alt="Preview" className="w-full h-full object-cover" />
+                    <img
+                      src={photoPreview}
+                      alt="Preview"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 )}
-                <Input 
-                  id="photo" 
-                  type="file" 
-                  accept="image/*" 
+                <Input
+                  id="photo"
+                  type="file"
+                  accept="image/*"
                   onChange={handlePhotoChange}
                 />
               </div>
             </div>
-            
-            <Button type="submit" className="w-full">Continue to Google Authentication</Button>
+
+            <Button type="submit" className="w-full">
+              Continue to Google Authentication
+            </Button>
           </form>
         </Form>
       </CardContent>
       <CardFooter className="flex justify-center">
         <p className="text-sm text-muted-foreground">
-          Already have an account? <a href="#" className="text-primary hover:underline">Sign in</a>
+          Already have an account?{' '}
+          <a href="#" className="text-primary hover:underline">
+            Sign in
+          </a>
         </p>
       </CardFooter>
     </Card>
