@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -115,8 +115,8 @@ const Index: React.FC = () => {
                       <span>EMI tracking and management</span>
                     </li>
                   </ul>
-                  <div className="mt-6">
-                    <Button variant="outline">
+                  <div className="mt-6 ">
+                    <Button variant="outline" className='hover:bg-gray-200'>
                       <Link to="/">Learn More</Link>
                     </Button>
                   </div>
@@ -190,8 +190,8 @@ const Index: React.FC = () => {
             Join thousands of users already benefiting from our platform
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button size="lg" variant="secondary" asChild>
-              <Link to="/borrower/signup">Apply for a Loan</Link>
+            <Button size="lg" variant="outline" asChild className='hover:bg-gray-200'>
+              <Link to="/borrower/signup" className='text-black'>Apply for a Loan</Link>
             </Button>
             <Button size="lg" variant="outline" className="bg-transparent text-white border-white hover:bg-white/10" asChild>
               <Link to="/lender/signup">Become a Lender</Link>
