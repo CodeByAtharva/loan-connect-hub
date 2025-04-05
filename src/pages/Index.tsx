@@ -27,7 +27,7 @@ const Index: React.FC = () => {
                 <Button size="lg" asChild>
                   <Link to="/borrower/signup">I Need a Loan</Link>
                 </Button>
-                <Button variant="outline" size="lg" asChild>
+                <Button variant="outline" size="lg" className="hover:bg-gray-200" asChild>
                   <Link to="/lender/signup">I Want to Lend</Link>
                 </Button>
               </div>
@@ -44,7 +44,7 @@ const Index: React.FC = () => {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 bg-white">
+      <section id='works' className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4">How It Works</h2>

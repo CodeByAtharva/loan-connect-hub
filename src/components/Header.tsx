@@ -11,12 +11,12 @@ const Header: React.FC = () => {
         <Logo />
         <nav className="hidden md:flex items-center space-x-6">
           <Link to="/" className="font-medium hover:text-primary transition-colors">Home</Link>
-          <Link to="/" className="font-medium hover:text-primary transition-colors">How It Works</Link>
+          <Link to="#works" className="font-medium hover:text-primary transition-colors">How It Works</Link>
           <Link to="/" className="font-medium hover:text-primary transition-colors">About Us</Link>
           <Link to="/" className="font-medium hover:text-primary transition-colors">Contact</Link>
         </nav>
         <div className="flex items-center space-x-4">
-          <Button variant="outline" asChild>
+          <Button variant="outline" asChild className="hover:bg-gray-200">
             <Link to="/lender/signup">Sign In</Link>
           </Button>
           <Button asChild>
