@@ -43,6 +43,7 @@
     "@splinetool/runtime": "^1.9.82",
     "@tanstack/react-query": "^5.56.2",
     "axios": "^1.8.4",
+    "bfg": "^0.3.0",
     "body-parser": "^2.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
