@@ -1,15 +1,21 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const mysql = require('mysql2/promise');
 require('dotenv').config();
 
+const  host= "localhost"
+const  user= "root"
+const  password= "Atharva"
+const  database= "loan_marketplace"
 // Import routes
 const authRoutes = require('./routes/auth');
 
 // Create Express app
 const app = express();
-const PORT = process.env.PORT || 5000;
-
+const PORT = 5000;
+const pool = require('./config/db');
+const { data } = require('autoprefixer');
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -19,6 +25,10 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
   res.send('Welcome to Loan Connect Hub API');
 });
+
+
+
+
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
@@ -26,8 +36,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/auth', authRoutes);
 
 // Database initialization
-const pool = require('./config/db');
 
+
+//console.log([env.example.DB_NAME]);
 // Initialize DB tables if they don't exist
 const initDb = async () => {
   try {
@@ -38,7 +49,7 @@ const initDb = async () => {
       const [borrowerExists] = await connection.execute(`
         SELECT COUNT(*) as count FROM information_schema.tables 
         WHERE table_schema = ? AND table_name = 'borrower'
-      `, [process.env.DB_NAME]);
+      `, [database]);
       
       if (borrowerExists[0].count === 0) {
         // Create borrower table
@@ -62,7 +73,7 @@ const initDb = async () => {
       const [lenderExists] = await connection.execute(`
         SELECT COUNT(*) as count FROM information_schema.tables 
         WHERE table_schema = ? AND table_name = 'lender'
-      `, [process.env.DB_NAME]);
+      `, [database]);
       
       if (lenderExists[0].count === 0) {
         // Create lender table
@@ -86,7 +97,7 @@ const initDb = async () => {
       const [loanRequestExists] = await connection.execute(`
         SELECT COUNT(*) as count FROM information_schema.tables 
         WHERE table_schema = ? AND table_name = 'loan_request'
-      `, [process.env.DB_NAME]);
+      `, [database]);
       
       if (loanRequestExists[0].count === 0) {
         // Create loan_request table
@@ -110,7 +121,7 @@ const initDb = async () => {
       const [approvedLoanExists] = await connection.execute(`
         SELECT COUNT(*) as count FROM information_schema.tables 
         WHERE table_schema = ? AND table_name = 'approved_loan'
-      `, [process.env.DB_NAME]);
+      `,[database]);
       
       if (approvedLoanExists[0].count === 0) {
         // Create approved_loan table
@@ -137,7 +148,7 @@ const initDb = async () => {
       const [emiExists] = await connection.execute(`
         SELECT COUNT(*) as count FROM information_schema.tables 
         WHERE table_schema = ? AND table_name = 'emi'
-      `, [process.env.DB_NAME]);
+      `, [database]);
       
       if (emiExists[0].count === 0) {
         // Create emi table
@@ -164,7 +175,7 @@ const initDb = async () => {
       const [chatExists] = await connection.execute(`
         SELECT COUNT(*) as count FROM information_schema.tables 
         WHERE table_schema = ? AND table_name = 'chat'
-      `, [process.env.DB_NAME]);
+      `, [database]);
       
       if (chatExists[0].count === 0) {
         // Create chat table
@@ -188,7 +199,7 @@ const initDb = async () => {
       const [chatMessageExists] = await connection.execute(`
         SELECT COUNT(*) as count FROM information_schema.tables 
         WHERE table_schema = ? AND table_name = 'chat_message'
-      `, [process.env.DB_NAME]);
+      `, [database]);
       
       if (chatMessageExists[0].count === 0) {
         // Create chat_message table

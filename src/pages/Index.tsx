@@ -1,4 +1,3 @@
-
 import React,{useEffect,useState} from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -6,6 +5,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Check, CreditCard, Users, Shield } from 'lucide-react';
+import Spline from '@splinetool/react-spline/next';
+
+
 
 const Index: React.FC = () => {
   return (
@@ -33,7 +35,8 @@ const Index: React.FC = () => {
               </div>
             </div>
             <div className="md:w-1/2 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              <img 
+
+            <img 
                 src="https://images.unsplash.com/photo-1460925895917-afdab827c52f" 
                 alt="Person using laptop for financial services" 
                 className="rounded-lg shadow-xl w-full"

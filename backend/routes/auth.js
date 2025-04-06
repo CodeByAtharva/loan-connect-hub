@@ -6,8 +6,15 @@ const fs = require('fs').promises;
 const { v4: uuidv4 } = require('uuid');
 const pool = require('../config/db');
 const admin = require('../config/firebase-admin');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 
 
+
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+const JWT_SECRET = "your_secret_key"; 
 // Input validation middleware
 const validateRegistrationInput = (req, res, next) => {
   const { name, phone, aadhar, pan, profession } = req.body;
@@ -43,6 +50,32 @@ const validateRegistrationInput = (req, res, next) => {
   next();
 };
 
+app.post('/borrowers/login', async (req, res) => {
+  const { aadhar, name } = req.body;
+
+  if (!aadhar || !name) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    const [rows] = await db.query("SELECT * FROM borrowers WHERE aadhar = ? AND name = ?", [aadhar, name]);
+
+    if (rows.length === 0) {
+      return res.status(401).json({ message: "Invalid Aadhar ID or Name" });
+    }
+
+    const user = rows[0];
+
+    // Generate JWT Token
+    //const token = jwt.sign({ id: user.id, aadhar: user.aadhar }, JWT_SECRET, { expiresIn: '1h' });
+
+    res.status(200).json({ message: "Login successful" });
+
+  } catch (error) {
+    console.error("Database Error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 // Add the missing endpoint for borrowers/signup
 router.post('/borrowers/signup', validateRegistrationInput, async (req, res) => {
   try {

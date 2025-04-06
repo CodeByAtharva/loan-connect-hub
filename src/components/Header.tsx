@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
 import { Button } from '@/components/ui/button';
+import LoginPage from '@/pages/LoginPage';
 
 const Header: React.FC = () => {
   return (
@@ -17,7 +18,7 @@ const Header: React.FC = () => {
         </nav>
         <div className="flex items-center space-x-4">
           <Button variant="outline" asChild className="hover:bg-gray-200">
-            <Link to="/lender/signup">Sign In</Link>
+            <Link to="/lender/login">Sign In</Link>
           </Button>
           <Button asChild>
             <Link to="/borrower/signup">Get Started</Link>

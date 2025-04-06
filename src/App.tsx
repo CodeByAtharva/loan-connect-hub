@@ -10,6 +10,7 @@ import LenderSignup from "./pages/LenderSignup";
 import BorrowerDashboard from "./pages/BorrowerDashboard";
 import LenderDashboard from "./pages/LenderDashboard";
 import NotFound from "./pages/NotFound";
+import LoginPage from "./pages/LoginPage";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,8 @@ const App = () => (
           <Route path="/lender/signup" element={<LenderSignup />} />
           <Route path="/borrower/dashboard" element={<BorrowerDashboard />} />
           <Route path="/lender/dashboard" element={<LenderDashboard />} />
+          <Route path="/lender/login" element={<LoginPage />} />
+          <Route path="/borrower/login" element={<LoginPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
