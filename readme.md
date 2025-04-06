@@ -1,6 +1,6 @@
 # Loan-Connect-Hub
 
-A peer-to-peer lending platform connecting borrowers with potential lenders in a secure and user-friendly environment.
+A peer-to-peer lending platform connecting borrowers with potential lenders in a secure and user-friendly environment. This project was developed during a 24-hour hackathon held by Dr. D. Y. Patil Institute of Technology, Pimpri.
 
 ## 📑 Table of Contents
 - [Overview](#overview)
@@ -16,7 +16,7 @@ A peer-to-peer lending platform connecting borrowers with potential lenders in a
 
 ## 🌟 Overview
 
-LoanConnectHub is a web application designed to facilitate peer-to-peer lending by connecting borrowers seeking funds with potential lenders. The platform streamlines the lending process with secure authentication, real-time communication, and transaction management.
+LoanConnectHub is a web application designed to facilitate peer-to-peer lending by connecting borrowers seeking funds with potential lenders. The platform streamlines the lending process with secure authentication, real-time communication, and transaction management. This project was conceptualized and developed within 24 hours as part of the hackathon at Dr. D. Y. Patil Institute of Technology, Pimpri.
 
 The platform offers distinct experiences for borrowers and lenders:
 - **Borrowers** can create loan requests, view loan statuses, and manage EMI payments
